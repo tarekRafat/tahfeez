@@ -1,1 +1,78 @@
-<p>home works!</p>
+<div class="form-container">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="custom-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <h4>Homework</h4>
+      <div class="dropdown-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Name of Surah</mat-label>
+          <mat-select
+            (selectionChange)="onChangeSurahHandler($event)"
+            formControlName="surahName"
+          >
+            <mat-option *ngFor="let sarah of QURAN" [value]="sarah.id">
+              {{ sarah.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>From : {{ startStr?.start?.substring(0, 40) }}</mat-label>
+          <mat-select
+            formControlName="start"
+            (selectionChange)="onChangeFromSelectHandler('start')"
+          >
+            <mat-option
+              *ngFor="let sarah of formGroup.get('count')?.value; let i = index"
+              [value]="i + 1"
+            >
+              {{ i + 1 }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>To {{ startStr?.end }}</mat-label>
+          <mat-select
+            formControlName="end"
+            (selectionChange)="onChangeFromSelectHandler('end')"
+          >
+            <mat-option
+              *ngFor="let sarah of formGroup.get('count')?.value; let i = index"
+              [value]="i + 1"
+              [disabled]="i + 1 <= formGroup.get('start')?.value"
+            >
+              {{ i + 1 }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <h4>Notes</h4>
+      <mat-form-field class="example-full-width">
+        <mat-label>Notes</mat-label>
+        <textarea
+          matInput
+          placeholder="Ex. Leave Notes..."
+          formControlName="note"
+        ></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">
+        Create Report
+      </button>
+    </div>
+  </form>
+</div>
