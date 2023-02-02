@@ -16,51 +16,163 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <h4>Homework</h4>
-      <div class="dropdown-container">
-        <mat-form-field appearance="fill">
-          <mat-label>Name of Surah</mat-label>
-          <mat-select
-            (selectionChange)="onChangeSurahHandler($event)"
-            formControlName="surahName"
-          >
-            <mat-option *ngFor="let sarah of QURAN" [value]="sarah.id">
-              {{ sarah.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>From : {{ startStr?.start?.substring(0, 40) }}</mat-label>
-          <mat-select
-            formControlName="start"
-            (selectionChange)="onChangeFromSelectHandler('start')"
-          >
-            <mat-option
-              *ngFor="let sarah of formGroup.get('count')?.value; let i = index"
-              [value]="i + 1"
-            >
-              {{ i + 1 }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>To {{ startStr?.end }}</mat-label>
-          <mat-select
-            formControlName="end"
-            (selectionChange)="onChangeFromSelectHandler('end')"
-          >
-            <mat-option
-              *ngFor="let sarah of formGroup.get('count')?.value; let i = index"
-              [value]="i + 1"
-              [disabled]="i + 1 <= formGroup.get('start')?.value"
-            >
-              {{ i + 1 }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div class="f-between">
+        <h4>Homework</h4>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="addSurah()"
+        >
+          Add +
+        </button>
       </div>
+      <br />
+
+      <div formArrayName="suwar">
+        <div
+          class="dropdown-container"
+          *ngFor="let surah of suwar.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>Name of Surah</mat-label>
+            <mat-select
+              formControlName="name"
+              (selectionChange)="onChangeSurahHandler($event, surah)"
+            >
+              <mat-option *ngFor="let sarah of QURAN" [value]="sarah.name">
+                {{ sarah.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label
+              >From : {{ surah?.value?.startStr?.substring(0, 40) }}</mat-label
+            >
+            <mat-select
+              formControlName="start"
+              (selectionChange)="
+                onChangeFromSelectHandler($event, 'startStr', surah)
+              "
+            >
+              <mat-option
+                *ngFor="let item of surah?.value?.count; let i = index"
+                [value]="i + 1"
+              >
+                {{ i + 1 }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label
+              >To
+              {{
+                surah?.value?.endStr?.substring(
+                  surah?.value?.endStr?.length,
+                  40,
+                  40
+                )
+              }}</mat-label
+            >
+            <mat-select
+              formControlName="end"
+              (selectionChange)="
+                onChangeFromSelectHandler($event, 'endStr', surah)
+              "
+            >
+              <mat-option
+                *ngFor="let item of surah?.value?.count; let i = index"
+                [value]="i + 1"
+              >
+                {{ i + 1 }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="f-between">
+        <h4>Revision</h4>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="addSurah('revision')"
+        >
+          Add +
+        </button>
+      </div>
+      <br />
+
+      <div formArrayName="revision">
+        <div
+          class="dropdown-container"
+          *ngFor="let surah of revision.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>Name of Surah</mat-label>
+            <mat-select
+              formControlName="name"
+              (selectionChange)="onChangeSurahHandler($event, surah)"
+            >
+              <mat-option *ngFor="let sarah of QURAN" [value]="sarah.name">
+                {{ sarah.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label
+              >From : {{ surah?.value?.startStr?.substring(0, 40) }}</mat-label
+            >
+            <mat-select
+              formControlName="start"
+              (selectionChange)="
+                onChangeFromSelectHandler($event, 'startStr', surah)
+              "
+            >
+              <mat-option
+                *ngFor="let item of surah?.value?.count; let i = index"
+                [value]="i + 1"
+              >
+                {{ i + 1 }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label
+              >To
+              {{
+                surah?.value?.endStr?.substring(
+                  surah?.value?.endStr?.length,
+                  40
+                )
+              }}</mat-label
+            >
+            <mat-select
+              formControlName="end"
+              (selectionChange)="
+                onChangeFromSelectHandler($event, 'endStr', surah)
+              "
+            >
+              <mat-option
+                *ngFor="let item of surah?.value?.count; let i = index"
+                [value]="i + 1"
+              >
+                {{ i + 1 }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
       <h4>Notes</h4>
       <mat-form-field class="example-full-width">
         <mat-label>Notes</mat-label>
