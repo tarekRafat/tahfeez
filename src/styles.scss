@@ -3,6 +3,11 @@
 html,
 body {
   height: 100%;
+  background-color: beige;
+  overflow-x: hidden;
+}
+* {
+  direction: rtl;
 }
 body {
   margin: 0;
@@ -11,4 +16,23 @@ body {
 .f-between {
   display: flex;
   justify-content: space-between;
+}
+.f-column {
+  display: flex;
+  flex-direction: column;
+}
+.f-end {
+  display: flex;
+  justify-content: flex-end;
+}
+.f-gap {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.w-100 {
+  width: 100%;
+}
+.p-2 {
+  padding: 2rem;
 }

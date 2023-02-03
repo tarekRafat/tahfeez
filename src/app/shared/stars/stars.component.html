@@ -1,0 +1,11 @@
+<span class="stars-container">
+  <i
+    [ngClass]="{
+      'fa-star': true,
+      'fa-solid': i < rating,
+      'fa-regular': i + 1 > rating
+    }"
+    *ngFor="let item of counter(starsNumber); let i = index"
+    (click)="calculateRating(i)"
+  ></i>
+</span>

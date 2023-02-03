@@ -7,9 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './pages/home/home.component';
 import { MaterialExampleModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StarsComponent } from './shared/stars/stars.component';
+import { ReportComponent } from './pages/home/components/report/report.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, StarsComponent, ReportComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

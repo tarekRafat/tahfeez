@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { getBySurahName, QURAN } from 'src/app/data/Quran';
+import { ReportComponent } from './components/report/report.component';
 
 @Component({
   selector: 'app-home',
@@ -10,25 +12,31 @@ import { getBySurahName, QURAN } from 'src/app/data/Quran';
 })
 export class HomeComponent {
   QURAN: any[] = QURAN;
-  selectFrom: any;
-  startStr: any = { start: '', end: '' };
-  endStr: string = '';
   surahName: string = '';
   formGroup = this.fb.group({
+    homeworkRating: [0],
+    revisionRating: [0],
     name: [''],
     date: [new Date()],
     suwar: this.fb.array([this.surahContent()]),
     revision: this.fb.array([]),
     note: [''],
   });
+
   get suwar() {
     return this.formGroup.get('suwar') as FormArray;
   }
   get revision() {
     return this.formGroup.get('revision') as FormArray;
   }
-  constructor(private fb: FormBuilder) {}
-
+  constructor(private fb: FormBuilder, public dialog: MatDialog) {}
+  ratingHandler(rating: number, type?: string) {
+    if (type === 'revision') {
+      this.formGroup.get('revisionRating')?.patchValue(rating);
+    } else {
+      this.formGroup.get('homeworkRating')?.patchValue(rating);
+    }
+  }
   surahContent() {
     return this.fb.group({
       name: [''],
@@ -42,10 +50,13 @@ export class HomeComponent {
 
   onSubmit() {
     console.log(this.formGroup.value);
+    this.dialog.open(ReportComponent, {
+      data: this.formGroup.value,
+      height: '80%',
+      width: '75%',
+    });
   }
-  // onChangeSurahHandler(e: any) {
-  //   console.log(e);
-  // }
+
   onChangeSurahHandler(e: any, formGroup: AbstractControl) {
     const value = e.value;
     this.surahName = value;
